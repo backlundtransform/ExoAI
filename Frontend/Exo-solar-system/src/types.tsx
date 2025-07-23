@@ -52,7 +52,7 @@ export interface PlanetData {
   export  interface SystemData {
     name: string
     radius: number
-    color: number
+   type: string
     habZoneMin: number
     habZoneMax: number
     planets: PlanetData[]
