@@ -18,7 +18,7 @@ export const Planet: React.FC<PlanetProps> = ({
   const ref = useRef<Mesh>(null)
 
   useFrame(({ clock }) => {
-    const t = clock.getElapsedTime()
+    const t = 50*clock.getElapsedTime()
     const period = planet.period ?? 1
 
     const angle = (t / period) * 2 * Math.PI

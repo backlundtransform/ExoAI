@@ -5,6 +5,10 @@ import './App.css'
 import { Planet } from './Planet'
 import { systemData } from './Data'
 import { Star } from './Star'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
+
+import { HabitableZone } from './HabitableZone'
+import { OrbitRing } from './OrbitRing'
 
 
 
@@ -44,15 +48,33 @@ export default function ExoplanetSystem() {
 
    
           <Star radius={systemData.radius} spectralType={systemData.type} />
+          <HabitableZone
+            innerRadius={systemData.habZoneMin}
+            outerRadius={systemData.habZoneMax}
+            scaleDistanceFn={scaleDistanceToUnits}
+          />
 
-          {systemData.planets.map((planet) => (
+          {systemData.planets.map((planet) => ( <React.Fragment key={planet.id}>
+    <OrbitRing
+      distance={planet.meanDistance}
+      scaleDistanceFn={scaleDistanceToUnits}
+    />
             <Planet
               key={planet.id}
               planet={planet}
               scaleDistanceFn={scaleDistanceToUnits}
               scaleRadiusFn={scaleRadiusToUnits}
-            />
+            /> </React.Fragment>
           ))}
+
+    <EffectComposer>
+        <Bloom
+          intensity={1.5}
+          kernelSize={3}
+          luminanceThreshold={0.1}
+          luminanceSmoothing={0.9}
+        />
+      </EffectComposer>
         
 
         <OrbitControls />

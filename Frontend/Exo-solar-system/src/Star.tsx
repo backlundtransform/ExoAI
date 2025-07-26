@@ -1,3 +1,6 @@
+import { useLoader } from "@react-three/fiber"
+import { TextureLoader } from "three"
+
 interface StarProps {
     radius: number
     spectralType:string
@@ -15,29 +18,38 @@ const scaleSolarRadiusToUnits = (radiusSolarRadii: number) =>
   export const Star: React.FC<StarProps> = ({ radius, spectralType }) => {
     const scaledRadius = scaleSolarRadiusToUnits(radius)
     const color = getStarColor(spectralType)
+    const texture = useLoader(TextureLoader, '/textures/sun.png') 
   
     return (
       <mesh>
-        <sphereGeometry args={[scaledRadius, 64, 64]} />
-        <meshStandardMaterial
-          emissive={color}
-          emissiveIntensity={1.5}
-          color={color}
-        />
-      </mesh>
+
+      {/* Inre solkroppen med textur */}
+      <sphereGeometry args={[scaledRadius, 64, 64]} />
+      <meshStandardMaterial
+        map={texture}
+        emissive={color}
+        emissiveIntensity={1.5}
+        toneMapped={false}
+      />
+    
+   
+    </mesh>
     )
   }
 
 function getStarColor(spectralType: string): string {
+ 
     const type = spectralType?.charAt(0).toUpperCase()
+
+ 
     switch (type) {
-      case 'O': return '#9bb0ff' // blå
-      case 'B': return '#aabfff' // blå-vit
-      case 'A': return '#cad7ff' // vit
-      case 'F': return '#f8f7ff' // gul-vit
-      case 'G': return '#fff4ea' // gul (som solen)
-      case 'K': return '#ffd2a1' // orange
-      case 'M': return '#ffcc6f' // röd
+      case 'O': return '#5b76f0' 
+      case 'B': return '#ffcc6f' 
+      case 'A': return '#f0f0d5' 
+      case 'F': return '#f0f08d' 
+      case 'G': return '#fabd16' 
+      case 'K': return '#fa7d16' 
+      case 'M': return '#fa1616' 
       default: return 'white'
     }
   }

@@ -1,11 +1,28 @@
 import type { SystemData } from './types'
 
 export const systemData: SystemData = {
-    name: "Sun",
-    radius: 1,
-    type: "G2V",
-    habZoneMin: 167.97,
-    habZoneMax: 179.95,
+  "id": 1,
+  "name": "Sun",
+  "nameHD": null,
+  "nameHIP": null,
+  "constellation": null,
+  "type": "G2V",
+  "mass": 1,
+  "radius": 1,
+  "teff": 5778,
+  "luminosity": 1,
+  "feH": 0.002,
+  "age": 4.6,
+  "apparMag": -26.7,
+  "distance": 0.00000484,
+  "ra": null,
+  "dec": null,
+  "magfromPlanet": null,
+  "sizefromPlanet": null,
+  "habZoneMin": 0.9,
+  "habZoneMax": 1.5,
+  "habCat": null,
+  "message": null,
     planets: [
       
         {

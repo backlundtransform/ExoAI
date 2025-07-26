@@ -50,10 +50,27 @@ export interface PlanetData {
   }
   
   export  interface SystemData {
-    name: string
-    radius: number
-   type: string
-    habZoneMin: number
-    habZoneMax: number
-    planets: PlanetData[]
+    id: number,
+    name: string,
+    nameHD:string | null,
+    nameHIP: string | null,
+    constellation:string | null,
+    type: string,
+    mass: number,
+    radius: number,
+    teff:number,
+    luminosity:number,
+    feH: number,
+    age: number,
+    apparMag: number,
+    distance: number,
+    ra:number | null,
+    dec: number | null,
+    magfromPlanet: number | null,
+    sizefromPlanet: number | null,
+    habZoneMin: number,
+    habZoneMax: number,
+    habCat: number | null,
+    planets: PlanetData[],
+    message:string | null
   }
