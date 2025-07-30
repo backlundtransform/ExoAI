@@ -8,7 +8,7 @@ import { Star } from './Star'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 
 import { HabitableZone } from './HabitableZone'
-import { OrbitRing } from './OrbitRing'
+import { OrbitPath } from './OrbitRing'
 
 
 
@@ -55,9 +55,12 @@ export default function ExoplanetSystem() {
           />
 
           {systemData.planets.map((planet) => ( <React.Fragment key={planet.id}>
-    <OrbitRing
-      distance={planet.meanDistance}
-      scaleDistanceFn={scaleDistanceToUnits}
+    <OrbitPath
+      semiMajorAxis={scaleDistanceToUnits(planet.meanDistance ?? 0)}
+
+  eccentricity={planet.eccentricity ?? 0}
+  inclination={planet.inclination ?? 0}
+  color="white"
     />
             <Planet
               key={planet.id}

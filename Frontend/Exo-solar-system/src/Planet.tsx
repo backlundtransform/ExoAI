@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { Mesh } from 'three'
 import type { PlanetData } from './types'
 import { usePlanetMaterial } from './planetMaterial'
+import { getOrbitalPosition } from './utils' // ny
 
 interface PlanetProps {
   planet: PlanetData
@@ -18,19 +19,18 @@ export const Planet: React.FC<PlanetProps> = ({
   const ref = useRef<Mesh>(null)
 
   useFrame(({ clock }) => {
-    const t = 50*clock.getElapsedTime()
+    const t = 50 * clock.getElapsedTime()
     const period = planet.period ?? 1
-
     const angle = (t / period) * 2 * Math.PI
 
-  
-    const distance = scaleDistanceFn(planet.meanDistance ?? 0)
+    const a = scaleDistanceFn(planet.meanDistance ?? 0)
+    const e = planet.eccentricity ?? 0
+    const i = planet.inclination ?? 0
 
-    const x = Math.cos(angle) * distance
-    const z = Math.sin(angle) * distance
+    const pos = getOrbitalPosition(a, e, i, angle)
 
     if (ref.current) {
-      ref.current.position.set(x, 0, z)
+      ref.current.position.set(pos.x, pos.y, pos.z)
     }
   })
 
@@ -44,4 +44,3 @@ export const Planet: React.FC<PlanetProps> = ({
     </mesh>
   )
 }
-
