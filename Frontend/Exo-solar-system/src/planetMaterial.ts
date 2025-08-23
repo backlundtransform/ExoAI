@@ -4,13 +4,13 @@ import * as THREE from 'three'
 import type { PlanetData } from './types'
 
 export function usePlanetMaterial(planet: PlanetData) {
-  const textureKey = `${planet.zoneClass}_${planet.massClass}_${planet.compositionClass}`.toLowerCase()
+  const textureKey = `${planet.zoneClass}_${planet.massClass}_${planet.compositionClass?planet.compositionClass:'rocky-water'}`.toLowerCase()
   const textureMap = useTexture(`/textures/${textureKey}.png`) 
 
   return useMemo(() => {
-    const color = getColorByMassClass(planet.massClass, planet.esi ?? 0)
-    const metalness = getMetalness(planet.compositionClass)
-    const roughness = getRoughness(planet.compositionClass)
+    const color = getColorByMassClass(planet.massClass?planet.massClass:'', planet.esi ?? 0)
+    const metalness = getMetalness(planet.compositionClass?planet.compositionClass:'rocky-water')
+    const roughness = getRoughness(planet.compositionClass?planet.compositionClass:'rocky-water')
     const emissive = planet.esi && planet.esi > 0.8 ? 'green' : 'black'
     const emissiveIntensity = planet.esi && planet.esi > 0.8 ? 0.2 : 0
 

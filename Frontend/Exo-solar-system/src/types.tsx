@@ -4,8 +4,8 @@ export interface PlanetData {
     nameKepler: string | null
     nameKOI: string | null
     zoneClass: string | null
-    massClass: string
-    compositionClass: string
+    massClass: string  | null,
+    compositionClass: string  | null,
     atmosphereClass: string | null
     habitableClass: string | null
     minMass: number | null
@@ -60,8 +60,8 @@ export interface PlanetData {
     radius: number,
     teff:number,
     luminosity:number,
-    feH: number,
-    age: number,
+    feH: number  | null,
+    age: number  | null,
     apparMag: number,
     distance: number,
     ra:number | null,
