@@ -11,22 +11,33 @@ export const HabitableZone: React.FC<HabitableZoneProps> = ({
   outerRadius,
   scaleDistanceFn
 }) => {
-  const segments = 128
   const innerScaled = scaleDistanceFn(innerRadius)
   const outerScaled = scaleDistanceFn(outerRadius)
 
   return (
     <>
-      {/* Inre gräns – röd cirkel */}
-      <mesh rotation-x={Math.PI / 2}>
-        <ringGeometry args={[innerScaled - 0.2, innerScaled + 0.2, segments]} />
-        <meshBasicMaterial color="red" side={2} transparent opacity={0.5} />
+      {/* Inre sfär – röd, tunn, genomskinlig */}
+      <mesh>
+        <sphereGeometry args={[innerScaled, 64, 64]} />
+        <meshBasicMaterial
+          color="red"
+          transparent
+          opacity={0.005}
+          side={2} // DoubleSide
+          wireframe={false}
+        />
       </mesh>
 
-      {/* Yttre gräns – blå cirkel */}
-      <mesh rotation-x={Math.PI / 2}>
-        <ringGeometry args={[outerScaled - 0.2, outerScaled + 0.2, segments]} />
-        <meshBasicMaterial color="blue" side={2} transparent opacity={0.5} />
+      {/* Yttre sfär – blå, tunn, genomskinlig */}
+      <mesh>
+        <sphereGeometry args={[outerScaled, 64, 64]} />
+        <meshBasicMaterial
+          color="green"
+          transparent
+          opacity={0.005}
+          side={2}
+          wireframe={false}
+        />
       </mesh>
     </>
   )

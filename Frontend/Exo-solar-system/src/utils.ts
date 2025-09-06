@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import type { SystemData } from './types'
 
 /**
  * Beräknar planetens position på banan utifrån semi-major axis, excentricitet,
@@ -43,4 +44,31 @@ export function getAngleFromPosition(
 
   const angle = Math.atan2(dz / b, dx / a)
   return angle
+}
+
+export function makeScaleDistanceFn(system: SystemData, targetMax = 200) {
+  const maxDistanceAU = Math.max(...system.planets.map(p => p.meanDistance ?? 0))
+
+  return (distanceAU: number) => {
+    if (!maxDistanceAU || distanceAU <= 0) return 0
+
+    
+    const logPart = Math.log10(distanceAU + 1) / Math.log10(maxDistanceAU + 1)
+    return logPart * targetMax
+  }
+}
+
+export function makeScaleRadiusFn(system: SystemData, targetMax = 5, minSize = 0.8) {
+  const maxRadius = Math.max(...system.planets.map(p => p.radius ?? 0))
+  return (radiusEarthRadii: number) => {
+    if (!maxRadius) return minSize
+    return (radiusEarthRadii / maxRadius) * targetMax + minSize
+  }
+}
+
+export function computeOrbitSpeed(periodDays: number, baseOrbitTime = 30) {
+ 
+  const logPeriod = Math.log10(periodDays + 1)
+  const speed = (2 * Math.PI) / (baseOrbitTime * logPeriod)
+  return speed
 }

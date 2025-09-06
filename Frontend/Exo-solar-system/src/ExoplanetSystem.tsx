@@ -8,23 +8,20 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { HabitableZone } from './HabitableZone'
 import { OrbitPath } from './OrbitRing'
 import type { SystemData } from './types'
+import { makeScaleDistanceFn, makeScaleRadiusFn } from './utils'
+
 
 interface ExoplanetSystemProps {
   system: SystemData
 }
 
-const scaleDistanceToUnits = (distanceAU: number) => {
-  const logDistance = Math.log10(distanceAU + 1)
-  return logDistance * 100
-}
-const scaleRadiusToUnits = (radiusEarthRadii: number) => {
-  const logRadius = Math.log10(radiusEarthRadii + 1)
-  return logRadius * 3.5
-}
 
 export const ExoplanetSystem: React.FC<ExoplanetSystemProps> = ({ system }) => {
+  const scaleDistanceFn = makeScaleDistanceFn(system, 200)
+  const scaleRadiusFn = makeScaleRadiusFn(system, 5, 0.8)
+
   const maxDistanceAU = Math.max(...system.planets.map(p => p.meanDistance ?? 0))
-  const maxDistance = scaleDistanceToUnits(maxDistanceAU)
+  const maxDistance = scaleDistanceFn(maxDistanceAU)
   const cameraZ = maxDistance * 1.5
 
   return (
@@ -39,21 +36,22 @@ export const ExoplanetSystem: React.FC<ExoplanetSystemProps> = ({ system }) => {
         <HabitableZone
           innerRadius={system.habZoneMin}
           outerRadius={system.habZoneMax}
-          scaleDistanceFn={scaleDistanceToUnits}
+          scaleDistanceFn={scaleDistanceFn}
         />
 
         {system.planets.map((planet) => (
           <React.Fragment key={planet.id}>
             <OrbitPath
-              semiMajorAxis={scaleDistanceToUnits(planet.meanDistance ?? 0)}
+              semiMajorAxis={scaleDistanceFn(planet.meanDistance ?? 0)}
               eccentricity={planet.eccentricity ?? 0}
               inclination={planet.inclination ?? 0}
               color="white"
             />
             <Planet
               planet={planet}
-              scaleDistanceFn={scaleDistanceToUnits}
-              scaleRadiusFn={scaleRadiusToUnits}
+              scaleDistanceFn={scaleDistanceFn}
+              scaleRadiusFn={scaleRadiusFn}
+              system={system}
             />
           </React.Fragment>
         ))}

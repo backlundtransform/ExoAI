@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Mesh } from 'three'
 import { Html } from '@react-three/drei'
-import type { PlanetData } from './types'
+import type { PlanetData, SystemData } from './types'
 import { usePlanetMaterial } from './planetMaterial'
 import { getPositionFromAngle } from './utils'
 
@@ -10,16 +10,18 @@ interface PlanetProps {
   planet: PlanetData
   scaleDistanceFn: (distanceAU: number) => number
   scaleRadiusFn: (radiusEarthRadii: number) => number
+  system: SystemData
 }
 
 export const Planet: React.FC<PlanetProps> = ({
   planet,
   scaleDistanceFn,
-  scaleRadiusFn
+  scaleRadiusFn,
+  system
 }) => {
   const ref = useRef<Mesh>(null)
   const [hovered, setHovered] = useState(false)
-  const [angle, setAngle] = useState(0) // planetens position på banan
+ 
 
   const scaledRadius = scaleRadiusFn(planet.radius)
   const material = usePlanetMaterial(planet)
@@ -28,26 +30,21 @@ export const Planet: React.FC<PlanetProps> = ({
   const e = planet.eccentricity ?? 0
   const i = planet.inclination ?? 0
 
-  // Animation längs banan
+  
+
   useFrame(({ clock }) => {
-    const speedFactor =  1 
-    const t = 50 * clock.getElapsedTime()
-    const period = planet.period ?? 1
-
-    if(!hovered)
-     setAngle((t / period) * 2 * Math.PI * speedFactor)
-
-    if (ref.current) {
+    if (ref.current && !hovered) {
+      const periodDays = planet.period ?? 1      // planetens period i dagar
+      const shortestPeriod = Math.min(...system.planets.map(p => p.period ?? 1)) // kortaste perioden i systemet
+  
+      const speedFactor =Math.PI * (shortestPeriod / periodDays) 
+      const angle = clock.getElapsedTime() * speedFactor
+  
       const pos = getPositionFromAngle(a, e, i, angle)
       ref.current.position.set(pos.x, pos.y, pos.z)
     }
-
-    
-    if (hovered) {
-      document.body.style.cursor = 'pointer'
-    } else {
-      document.body.style.cursor = 'default'
-    }
+  
+    document.body.style.cursor = hovered ? 'pointer' : 'default'
   })
 
   return (
