@@ -38,3 +38,58 @@ html, body, #root {
   display: flex;
   flex: 1;
 }
+
+.app-container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.status {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.status.error {
+  color: #ff6b6b;
+}
+
+.star-grid-container {
+  flex: 1; /* Tar kvarvarande höjd */
+  overflow-y: auto; /* Scrollbar vid behov */
+  padding-right: 10px;
+  margin-top: 10px;
+}
+
+.star-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  justify-items: center;
+}
+
+.star-button {
+  background: #1e90ff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.star-button:hover {
+  background: #00bfff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
