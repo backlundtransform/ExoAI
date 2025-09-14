@@ -8,7 +8,7 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { HabitableZone } from './HabitableZone'
 import { OrbitPath } from './OrbitRing'
 import type { SystemData } from './types'
-import { makeScaleDistanceFn, makeScaleRadiusFn } from './utils'
+import { makeScaleDistanceFn, makeScaleRadiusFn, scaleStarRadiusToUnits } from './utils'
 
 
 interface ExoplanetSystemProps {
@@ -17,11 +17,14 @@ interface ExoplanetSystemProps {
 
 
 export const ExoplanetSystem: React.FC<ExoplanetSystemProps> = ({ system }) => {
+
+  console.log(system)
   const scaleDistanceFn = makeScaleDistanceFn(system, 200)
   const scaleRadiusFn = makeScaleRadiusFn(system, 5, 0.8)
 
   const maxDistanceAU = Math.max(...system.planets.map(p => p.meanDistance ?? 0))
   const maxDistance = scaleDistanceFn(maxDistanceAU)
+
   const cameraZ = maxDistance * 1.5
 
   return (
@@ -32,7 +35,7 @@ export const ExoplanetSystem: React.FC<ExoplanetSystemProps> = ({ system }) => {
 
         <Stars radius={300} depth={60} count={10000} factor={7} saturation={0} fade speed={1} />
 
-        <Star radius={system.radius} spectralType={system.type} />
+        <Star radius={scaleStarRadiusToUnits(system.radius, maxDistance)} spectralType={system.type} />
         <HabitableZone
           innerRadius={system.habZoneMin}
           outerRadius={system.habZoneMax}

@@ -72,3 +72,12 @@ export function computeOrbitSpeed(periodDays: number, baseOrbitTime = 30) {
   const speed = (2 * Math.PI) / (baseOrbitTime * logPeriod)
   return speed
 }
+
+
+export function scaleStarRadiusToUnits(radiusSolarRadii: number, maxPlanetDistanceAU: number){
+
+  const base = Math.log10(radiusSolarRadii + 1) * 10
+  const maxScaled = Math.log10(maxPlanetDistanceAU + 1) * 0.2
+  return Math.min(Math.max(base, 3), maxScaled)
+
+}

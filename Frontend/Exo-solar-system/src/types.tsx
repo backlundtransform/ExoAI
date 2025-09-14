@@ -74,3 +74,52 @@ export interface PlanetData {
     planets: PlanetData[],
     message:string | null
   }
+
+  // --- API RESPONSE ---
+export interface StarApi {
+  id: number
+  name: string
+  nameHD?: string | null
+  nameHIP?: string | null
+  constellation?: string | null
+  type?: string | null
+  mass?: number | null
+  radius: number
+  teff?: number | null
+  luminosity?: number | null
+  feH?: number | null
+  age?: number | null
+  apparMag?: number | null
+  distance?: number | null
+  ra?: number | null
+  dec?: number | null
+  habZoneMin?: number | null
+  habZoneMax?: number | null
+  message?: string | null
+}
+
+export interface PlanetApi {
+  id: number
+  name: string
+  zoneClass?: string | null
+  massClass?: string | null
+  mass?: number | null
+  radius?: number | null
+  density?: number | null
+  gravity?: number | null
+  escVel?: number | null
+  sFluxMean?: number | null
+  teqMean?: number | null
+  tsMean?: number | null
+  period?: number | null
+  semMajorAxis?: number | null
+  eccentricity?: number | null
+  meanDistance?: number | null
+  inclination?: number | null
+  omega?: number | null
+  esi?: number | null
+  habitable?: boolean | null
+  disc_Method?: string | null
+  disc_Year?: number | null
+  message?: string | null
+}
